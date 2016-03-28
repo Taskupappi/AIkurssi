@@ -24,6 +24,9 @@
     <ClInclude Include="SteinsGateForNormalMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StateMachineStates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StateMachine.cpp">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SteinsGateForNormalMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachineStates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

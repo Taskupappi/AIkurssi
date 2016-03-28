@@ -65,12 +65,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="StateMachineStates.h" />
     <ClInclude Include="SteinsGate.h" />
     <ClInclude Include="SteinsGateForNormalMode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="StateMachine.cpp" />
+    <ClCompile Include="StateMachineStates.cpp" />
     <ClCompile Include="SteinsGate.cpp" />
     <ClCompile Include="SteinsGateForNormalMode.cpp" />
   </ItemGroup>
