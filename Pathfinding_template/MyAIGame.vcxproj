@@ -83,8 +83,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClosedList.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OpenList.cpp" />
     <ClCompile Include="PathFindingApp.cpp" />
+    <ClCompile Include="SearchLevel.cpp" />
+    <ClCompile Include="SearchNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(YAM2D_ROOT)\engine\build\win32_vs13\yam2d.vcxproj">
@@ -92,7 +96,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClosedList.h" />
+    <ClInclude Include="OpenList.h" />
     <ClInclude Include="PathFindingApp.h" />
+    <ClInclude Include="SearchLevel.h" />
+    <ClInclude Include="SearchNode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
