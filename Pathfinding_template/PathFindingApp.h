@@ -7,6 +7,13 @@
 #include <SpriteBatch.h>
 #include <SpriteSheet.h>
 
+//#include "path.h"
+#include "OpenList.h"
+#include "ClosedList.h"
+#include "SearchLevel.h"
+//#include "SearchNode.h"
+
+
 
 class PathFindingApp : public yam2d::Object
 {

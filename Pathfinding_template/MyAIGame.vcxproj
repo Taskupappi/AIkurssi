@@ -98,6 +98,7 @@
   <ItemGroup>
     <ClInclude Include="ClosedList.h" />
     <ClInclude Include="OpenList.h" />
+    <ClInclude Include="path.h" />
     <ClInclude Include="PathFindingApp.h" />
     <ClInclude Include="SearchLevel.h" />
     <ClInclude Include="SearchNode.h" />

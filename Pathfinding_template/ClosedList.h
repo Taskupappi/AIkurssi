@@ -2,15 +2,20 @@
 #define CLOSEDLIST_H
 
 #include <vec2.h>
+#include <map>
 
-class SearchNode;
+#include "SearchNode.h"
 
 class ClosedList
 {
 public:
+	ClosedList();
 	void addToClosedList(SearchNode* node);
-	bool isInClosedList();
+	bool isInClosedList(const Position &pos);
 	void clear();
+private:
+	typedef std::map<Position, SearchNode*> ClosedListType;
+	ClosedListType closedList;
 
 };
 #endif

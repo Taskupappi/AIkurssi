@@ -50,5 +50,8 @@
     <ClInclude Include="ClosedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

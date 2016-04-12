@@ -4,30 +4,30 @@
 #include <StreamTexture.h>
 #include <Text.h>
 
-namespace
-{
-	void setPathColor(yam2d::StreamTexture* t, int x, int y)
-	{
-		t->getPixel(x, y)[0] = 0xff;
-		t->getPixel(x, y)[1] = 0x00;
-		t->getPixel(x, y)[2] = 0xff;
-	}
-
-	bool isRed(unsigned char* p)
-	{
-		return p[0] > 200;
-	}
-
-	bool isGreen(unsigned char* p)
-	{
-		return p[1] > 200;
-	}
-
-	bool isBlue(unsigned char* p)
-	{
-		return p[2] > 200;
-	}
-}
+//namespace
+//{
+//	void setPathColor(yam2d::StreamTexture* t, int x, int y)
+//	{
+//		t->getPixel(x, y)[0] = 0xff;
+//		t->getPixel(x, y)[1] = 0x00;
+//		t->getPixel(x, y)[2] = 0xff;
+//	}
+//
+//	bool isRed(unsigned char* p)
+//	{
+//		return p[0] > 200;
+//	}
+//
+//	bool isGreen(unsigned char* p)
+//	{
+//		return p[1] > 200;
+//	}
+//
+//	bool isBlue(unsigned char* p)
+//	{
+//		return p[2] > 200;
+//	}
+//}
 
 PathFindingApp::PathFindingApp()
 : m_batch()
@@ -112,17 +112,17 @@ bool PathFindingApp::update(yam2d::ESContext* ctx, float deltaTime)
 			for (int x = 0; x < m_textureStartCase->getWidth(); ++x)
 			{
 				unsigned char* p = m_textureStartCase->getPixel(x, y);
-				if (isRed(p))
+				if (path::isRed(p))
 				{
 					// Red pixel
 					startX = x;
 					startY = y;
 				}
-				else if (isGreen(p))
+				else if (path::isGreen(p))
 				{
 					// Green pixel
 				}
-				else if (isBlue(p))
+				else if (path::isBlue(p))
 				{
 					// Blue pixel
 					endX = x;
@@ -212,12 +212,88 @@ bool PathFindingApp::doPathfinding(int startX, int startY, int endX, int endY)
 {
 	
 	// Set color for start and end pos to path color
-	setPathColor(m_texturePathFound, startX, startY);
-	setPathColor(m_texturePathFound, endX, endY);
+	path::setPathColor(m_texturePathFound, startX, startY);
+	path::setPathColor(m_texturePathFound, endX, endY);
 
-	// TODO: Add code here...
+	bool done = true;
+
+	OpenList openList;
+	ClosedList closedList;
+	SearchLevel searchLevel(m_textureStartCase);
+	SearchNode *result = 0;
+
+	//Start A* search
+	//add start node to open list
+	Position startPos = Position(startX, startY);
+	Position endPos = Position(endX, endY);
+	SearchNode *newNode = new SearchNode(startPos, searchLevel.getH(startPos, endPos), 0, 0);
+	openList.insertToOpenList(newNode);
 
 
+	//1. Get the square on the open list which has the lowest score. Let's call this square S (or prev)
+	while (!openList.isEmpty())
+	{
+		SearchNode* prev = openList.removeSmallestFFromOpenList();
+		if (prev->pos == endPos)
+		{
+			//goal found
+			result = prev;
+			break;
+		}
+		else
+		{
+			//2. remove S from the open list and add it to the closed list
+			closedList.addToClosedList(prev);
+			std::vector<Position> adjacentNodes = searchLevel.GetAdjacentNodes(prev->pos.first, prev->pos.second);
+
+			for (size_t i = 0; i < adjacentNodes.size(); i++)
+			{
+
+				if (closedList.isInClosedList(adjacentNodes[i]))
+				{
+					continue;
+				}
+
+				//node
+				SearchNode *node = openList.findFromOpenList(adjacentNodes[i]);
+
+				if (node == 0)
+				{
+					//if T is not in the open list: Add it and compute its score.
+					SearchNode *newNode = new SearchNode(adjacentNodes[i],
+						searchLevel.getH(adjacentNodes[i], endPos),
+						searchLevel.getG(prev, adjacentNodes[i]), prev);
+					openList.insertToOpenList(newNode);
+				}
+				else
+				{
+					//if T is already in the open list : check if the F score is lower
+					//when we use the current generated path to get there. If it is,
+					//update its score and uptade its parent as well
+					SearchNode *newNode = new SearchNode(adjacentNodes[i],
+						searchLevel.getH(adjacentNodes[i], endPos),
+						searchLevel.getG(prev, adjacentNodes[i]), prev);
+					if (node->distance() < newNode->distance())
+					{
+						node->resetPrev(newNode->prevNode, searchLevel.getG(newNode->prevNode, node->pos));
+					}
+				}
+			}
+		}
+	}
+
+	if (result == 0)
+	{
+		printf("path not found! \n");
+		return true;
+	}
+	while (result != 0)
+	{
+		path::setPathColor(m_texturePathFound, result->pos.first, result->pos.second);
+		result = result->prevNode;
+	}
+
+	return true;
 	// TODO: Remove that search end and delay hack as seen below..
 	static int i = 0;
 	i = ((i+1)%10); // 10*100ms = ~500 ms of total

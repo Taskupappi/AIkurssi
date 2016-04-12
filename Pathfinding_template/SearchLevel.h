@@ -4,17 +4,22 @@
 #include <vec2.h>
 #include <vector>
 
+//yam2d texture
+//#include "path.h"
+
 #include "SearchNode.h"
 
 class SearchLevel
 {
 public:
-	float getG(SearchNode* fromPos, SearchNode* toPos);
-	float getH(SearchNode* fromPos, SearchNode* toPos);
-	bool isWalkable(int x, int y);
-	std::vector<slm::vec2>GetAdjacentNodes(int posX, int posY);
+	SearchLevel(yam2d::Texture *input);
+	float getG(SearchNode *fromNode, const Position &toPos);
+	float getH(const Position &fromPos, const Position &toPos);
+	bool isWalkable(int posX, int posY);
+	std::vector<Position>GetAdjacentNodes(int posX, int posY);
 
 private:
+	yam2d::Texture *inputTexture;
 };
 
 #endif

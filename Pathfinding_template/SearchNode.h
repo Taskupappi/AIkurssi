@@ -2,8 +2,7 @@
 #define SEARCHNODE_H
 
 #include <iostream>
-
-typedef std::pair<int, int> Position;
+#include "path.h"
 
 class SearchNode
 {
@@ -12,15 +11,12 @@ public:
 	~SearchNode();
 
 	void resetPrev(SearchNode *prev, float deltaG);
-	void lessThan(SearchNode *prev, float deltaG);
-	
+	static bool lessThan(SearchNode *n1, SearchNode *n2);
+	float distance() const;
+
 	SearchNode* prevNode;
 	Position pos;
-	float G;
-	float H;
-	float F;
-
-
+	float G, H, F;
 };
 
 #endif

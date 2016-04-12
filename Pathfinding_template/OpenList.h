@@ -2,16 +2,23 @@
 #define OPENLIST_H
 
 #include <vec2.h>
-class SearchNode;
+#include <vector>
+#include <algorithm>
+
+#include "SearchNode.h"
 
 class OpenList
 {
-	SearchNode* findFromOpenList(slm::vec2 pos);
+public:
+	SearchNode* findFromOpenList(const Position &pos);
 	void insertToOpenList(SearchNode* node);
 	void sortOpenList();
 	SearchNode* removeSmallestFFromOpenList();
 	bool isEmpty();
 	void clear();
+private:
+	typedef std::vector<SearchNode*> OpenListType;
+	OpenListType openList;
 };
 
 #endif
