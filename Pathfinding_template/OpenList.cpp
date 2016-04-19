@@ -25,6 +25,13 @@ void OpenList::sortOpenList()
 	std::sort(openList.begin(), openList.end(), &SearchNode::lessThan);
 }
 
+SearchNode* OpenList::removeSmallestFFromOpenList()
+{
+	SearchNode* result = *(openList.end() - 1);
+	openList.pop_back();
+	return result;
+}
+
 bool OpenList::isEmpty()
 {
 	return openList.empty();
