@@ -9,6 +9,7 @@
 
 #include "ExampleBehaviours.h"
 #include "JoystickController.h"
+#include "DummiesAI.h"
 
 
 
@@ -59,6 +60,7 @@ private:
 	std::vector< yam2d::Ref<JoystickController> > m_joystickControllers;
 	std::vector< yam2d::Ref<DirectMoverAI> > m_directMoverAIControllers;
 	std::vector< yam2d::Ref<AutoAttackFlagCarryingBot> > m_autoAttackFlagCarryingBots;
+	std::vector< yam2d::Ref<Dummies> > m_dummies;
 
 public:
 	MyPlayerController()
@@ -101,6 +103,13 @@ public:
 			return myAI;
 		}
 
+		if (playerName == "Dummies")
+		{
+			Dummies* controller = new Dummies(ownerGameObject, gameController, type);
+			m_dummies.push_back(controller);
+			return controller;
+		}
+
 		if (playerName == "DirectMoverAI")
 		{
 			DirectMoverAI* controller = new DirectMoverAI(ownerGameObject, gameController, type);
@@ -123,10 +132,16 @@ public:
 		yam2d::esLogMessage("onGameStarted");
 		// Start going straight to dynamite
 		const yam2d::GameObject* dynamite = environmentInfo->getDynamite();
+		for (size_t i = 0; i < m_dummies.size(); ++i)
+		{
+			m_dummies[i]->setMoveTargetObject(dynamite, 1.0f);
+			printf_s("%c", m_myTeamName);
+		}
+
 		for (size_t i = 0; i < m_directMoverAIControllers.size(); ++i)
 		{
 			m_directMoverAIControllers[i]->setMoveTargetObject(dynamite, 1.0f);
-		}
+		}	
 	}
 
 
@@ -134,15 +149,21 @@ public:
 	virtual void onGameOver(GameEnvironmentInfoProvider* environmentInfo, const std::string& gameResultString)
 	{
 		yam2d::esLogMessage("onGameOver: %s wins!", gameResultString.c_str());
+		for (size_t i = 0; i < m_dummies.size(); ++i)
+		{
+			m_dummies[i]->resetMoveTargetObject();
+			m_dummies[i]->resetTargetToShoot();
+		}
+
 		for (size_t i = 0; i < m_directMoverAIControllers.size(); ++i)
 		{
 			m_directMoverAIControllers[i]->resetMoveTargetObject();
 		}
 
-		for (size_t i = 0; i < m_autoAttackFlagCarryingBots.size(); ++i)
-		{
-			m_autoAttackFlagCarryingBots[i]->resetTargetToShoot();
-		}
+		//for (size_t i = 0; i < m_autoAttackFlagCarryingBots.size(); ++i)
+		//{
+		//	m_autoAttackFlagCarryingBots[i]->resetTargetToShoot();
+		//}
 	}
 
 	// Called each frame. Update you player character controllers in this function.
@@ -204,10 +225,25 @@ public:
 
 			yam2d::esLogMessage("%s: gameObjectType=%s, team=%d", eventName.c_str(), itemEvent->getItemGameObject()->getType().c_str(), teamIndex);
 
-			for (size_t i = 0; i < m_autoAttackFlagCarryingBots.size(); ++i)
+
+
+			const yam2d::GameObject* homeBase = environmentInfo->getEnemyHomeBase(this);
+			for (size_t i = 0; i < m_dummies.size(); ++i)
 			{
-				m_autoAttackFlagCarryingBots[i]->setTargetToShoot(itemEvent->getObject()->getGameObject(), 1.9f, 0.05f);
+				if (teamIndex == getMyTeamIndex())
+				{
+					m_dummies[i]->setMoveTargetObject(homeBase, 1.0f);
+				}
+				else
+				{
+					m_dummies[i]->setTargetToShoot(itemEvent->getObject()->getGameObject(), 0.5f, 0.1f);
+				}
 			}
+
+			//for (size_t i = 0; i < m_autoAttackFlagCarryingBots.size(); ++i)
+			//{
+			//	m_autoAttackFlagCarryingBots[i]->setTargetToShoot(itemEvent->getObject()->getGameObject(), 1.9f, 0.05f);
+			//}
 			
 
 			if (teamIndex == getMyTeamIndex())
@@ -215,6 +251,11 @@ public:
 				// My team picked item. 
 				// Go to enemy home base.
 				const yam2d::GameObject* homeBase = environmentInfo->getEnemyHomeBase(this);
+				for (size_t i = 0; i < m_dummies.size(); ++i)
+				{
+					m_dummies[i]->setMoveTargetObject(homeBase, 1.0f);
+				}
+
 				for (size_t i = 0; i < m_directMoverAIControllers.size(); ++i)
 				{
 					m_directMoverAIControllers[i]->setMoveTargetObject(homeBase, 1.0f);
@@ -225,10 +266,19 @@ public:
 				// Other team picked the item.
 				// Go to enemy's enemy == me home base.
 				const yam2d::GameObject* homeBase = environmentInfo->getMyHomeBase(this);
+				const yam2d::GameObject* dynamite = environmentInfo->getDynamite();
+				for (size_t i = 0; i < m_dummies.size(); ++i)
+				{
+					m_dummies[i]->setMoveTargetObject(dynamite, 1.0f);
+				}
+
 				for (size_t i = 0; i < m_directMoverAIControllers.size(); ++i)
 				{
 					m_directMoverAIControllers[i]->setMoveTargetObject(homeBase, 1.0f);
+
 				}
+
+
 			}
 		}
 		else if (eventName == "ItemDropped")
@@ -237,15 +287,26 @@ public:
 			assert(itemEvent != 0);
 			yam2d::esLogMessage("%s: gameObjectType=%s", eventName.c_str(), itemEvent->getItemGameObject()->getType().c_str());
 			
-			for (size_t i = 0; i < m_autoAttackFlagCarryingBots.size(); ++i)
-			{
-				m_autoAttackFlagCarryingBots[i]->resetTargetToShoot();
-			}
+			//for (size_t i = 0; i < m_autoAttackFlagCarryingBots.size(); ++i)
+			//{
+			//	m_autoAttackFlagCarryingBots[i]->resetTargetToShoot();
+			//}
 
 
 			// Item propped.
 			// Start going straight to dynamite
 			const yam2d::GameObject* dynamite = environmentInfo->getDynamite();
+			for (size_t i = 0; i < m_dummies.size(); ++i)
+			{
+				m_dummies[i]->resetTargetToShoot();
+				//m_dummies[i]->setTargetToShoot();
+				m_dummies[i]->setMoveTargetObject(dynamite, 1.0f);
+			}
+
+
+			// Item propped.
+			// Start going straight to dynamite
+			//const yam2d::GameObject* dynamite = environmentInfo->getDynamite();
 			for (size_t i = 0; i < m_directMoverAIControllers.size(); ++i)
 			{
 				m_directMoverAIControllers[i]->setMoveTargetObject(dynamite, 1.0f);
@@ -314,7 +375,7 @@ int main(int argc, char *argv[])
 	app.disableLayer("GroundMoveSpeed");
 	//app.setLayerOpacity("GroundMoveSpeed", 0.7f); 
 	//app.setDefaultGame("level1.tmx", "MyAI", "DirectMoverAI", 4);
-	app.setDefaultGame("Level0.tmx", "AutoAttackFlagCarryingBot", "DirectMoverAI", 4);
+	app.setDefaultGame("Level2.tmx", "Dummies", "Dummies", 4);
 //	app.setDefaultGame("Level0.tmx", "DirectMoverAI", "AutoAttackFlagCarryingBot", 4);
 //	app.setDefaultGame("Level0.tmx", "DirectMoverAI", "AutoAttackFlagCarryingBot", 4);
 	MyPlayerController player1Controller;
