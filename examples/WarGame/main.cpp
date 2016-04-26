@@ -129,7 +129,11 @@ public:
 	// Called, when bots have spawn. Can be used some custom initialization after spawn.
 	virtual void onGameStarted(GameEnvironmentInfoProvider* environmentInfo)
 	{
+		yam2d::esLogMessage("kisse");
 		yam2d::esLogMessage("onGameStarted");
+		
+		AIMapLayer* pathMap = environmentInfo->getAILayer("GroundMoveSpeed");
+
 		// Start going straight to dynamite
 		const yam2d::GameObject* dynamite = environmentInfo->getDynamite();
 		for (size_t i = 0; i < m_dummies.size(); ++i)
@@ -142,6 +146,11 @@ public:
 		{
 			m_directMoverAIControllers[i]->setMoveTargetObject(dynamite, 1.0f);
 		}	
+
+
+
+
+
 	}
 
 
@@ -210,6 +219,7 @@ public:
 				{
 					std::string teamName = gameObject->getProperties()["team"].get<std::string>();
 					yam2d::esLogMessage("%s: gameObjectType=%s, teamName=%s", eventName.c_str(), gameObject->getType().c_str(), teamName.c_str());
+					
 				}
 				else
 				{
@@ -372,12 +382,12 @@ int main(int argc, char *argv[])
 	//app.disableLayer("Ground");
 	app.disableLayer("ObjectSpawns");
 	app.disableLayer("GroundTypeColliders");
-	app.disableLayer("GroundMoveSpeed");
-	//app.setLayerOpacity("GroundMoveSpeed", 0.7f); 
+	//app.disableLayer("GroundMoveSpeed");
+	app.setLayerOpacity("GroundMoveSpeed", 0.7f); 
 	//app.setDefaultGame("level1.tmx", "MyAI", "DirectMoverAI", 4);
-	app.setDefaultGame("Level2.tmx", "Dummies", "Dummies", 4);
-//	app.setDefaultGame("Level0.tmx", "DirectMoverAI", "AutoAttackFlagCarryingBot", 4);
-//	app.setDefaultGame("Level0.tmx", "DirectMoverAI", "AutoAttackFlagCarryingBot", 4);
+	app.setDefaultGame("Level0.tmx", "Dummies", "Dummies", 4);
+	//app.setDefaultGame("Level0.tmx", "DirectMoverAI", "AutoAttackFlagCarryingBot", 4);
+	//app.setDefaultGame("Level0.tmx", "DirectMoverAI", "AutoAttackFlagCarryingBot", 4);
 	MyPlayerController player1Controller;
 	app.setPlayer1Controller(&player1Controller);
 	MyPlayerController player2Controller;
