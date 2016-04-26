@@ -132,7 +132,7 @@ public:
 		yam2d::esLogMessage("kisse");
 		yam2d::esLogMessage("onGameStarted");
 		
-		AIMapLayer* pathMap = environmentInfo->getAILayer("GroundMoveSpeed");
+		
 
 		// Start going straight to dynamite
 		const yam2d::GameObject* dynamite = environmentInfo->getDynamite();
@@ -147,8 +147,21 @@ public:
 			m_directMoverAIControllers[i]->setMoveTargetObject(dynamite, 1.0f);
 		}	
 
+		AIMapLayer* moveMap = environmentInfo->getAILayer("GroundMoveSpeed");
+		uint8_t RED_PIXEL[4] = {0xff, 0x00, 0x00, 0xff};
+		uint8_t TP_PIXEL[4] = { 0x00, 0x00, 0x00, 0x00 };
 
-
+		AIMapLayer* debugMap = environmentInfo->getAILayer("Debug");
+		for (size_t y = 0; y < debugMap->getHeight(); y++)
+		{
+			for (size_t x = 0; x < debugMap->getHeight(); x++)
+			{
+				debugMap->setPixel(x, y, TP_PIXEL);
+			}
+		}
+		debugMap->setPixel(15, 15, RED_PIXEL);
+		debugMap->setPixel(16, 15, RED_PIXEL);
+		debugMap->setPixel(16, 17, RED_PIXEL);
 
 
 	}
