@@ -91,17 +91,22 @@
     <ClCompile Include="SearchNode.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="$(YAM2D_ROOT)\engine\build\win32_vs13\yam2d.vcxproj">
-      <Project>{48cda762-fea3-4ff9-3d05-b05d6038cad6}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="ClosedList.h" />
     <ClInclude Include="OpenList.h" />
     <ClInclude Include="path.h" />
     <ClInclude Include="PathFindingApp.h" />
     <ClInclude Include="SearchLevel.h" />
     <ClInclude Include="SearchNode.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\yam2d\engine\build\win32_vs13\yam2d.vcxproj">
+      <Project>{48cda762-fea3-4ff9-3d05-b05d6038cad6}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClosedList.cpp" />
+    <ClCompile Include="Dummies.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenList.cpp" />
     <ClCompile Include="Pathfinding.cpp" />

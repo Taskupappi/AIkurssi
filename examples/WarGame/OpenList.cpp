@@ -27,8 +27,8 @@ void OpenList::sortOpenList()
 
 SearchNode* OpenList::removeSmallestFFromOpenList()
 {
-	SearchNode* result = *(openList.end() - 1);
-	openList.pop_back();
+	SearchNode* result = *(openList.end() - 1); //take last one
+	openList.pop_back(); // remove last element
 	return result;
 }
 

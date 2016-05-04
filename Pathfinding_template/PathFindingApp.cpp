@@ -1,33 +1,35 @@
 #include "PathFindingApp.h"
+
+
 #include <Input.h>
 #include <ElapsedTimer.h>
 #include <StreamTexture.h>
 #include <Text.h>
 
-//namespace
-//{
-//	void setPathColor(yam2d::StreamTexture* t, int x, int y)
-//	{
-//		t->getPixel(x, y)[0] = 0xff;
-//		t->getPixel(x, y)[1] = 0x00;
-//		t->getPixel(x, y)[2] = 0xff;
-//	}
-//
-//	bool isRed(unsigned char* p)
-//	{
-//		return p[0] > 200;
-//	}
-//
-//	bool isGreen(unsigned char* p)
-//	{
-//		return p[1] > 200;
-//	}
-//
-//	bool isBlue(unsigned char* p)
-//	{
-//		return p[2] > 200;
-//	}
-//}
+namespace
+{
+	void setPathColor(yam2d::StreamTexture* t, int x, int y)
+	{
+		t->getPixel(x, y)[0] = 0xff;
+		t->getPixel(x, y)[1] = 0x00;
+		t->getPixel(x, y)[2] = 0xff;
+	}
+
+	bool isRed(unsigned char* p)
+	{
+		return p[0] > 200;
+	}
+
+	bool isGreen(unsigned char* p)
+	{
+		return p[1] > 200;
+	}
+
+	bool isBlue(unsigned char* p)
+	{
+		return p[2] > 200;
+	}
+}
 
 PathFindingApp::PathFindingApp()
 : m_batch()

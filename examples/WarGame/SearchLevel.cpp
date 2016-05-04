@@ -51,5 +51,4 @@ std::vector<Position> SearchLevel::GetAdjacentNodes(int posX, int posY)
 	result.push_back(Position(posX, posY - 1));
 
 	return result;
-
 }
