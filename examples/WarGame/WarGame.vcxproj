@@ -84,11 +84,23 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClosedList.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OpenList.cpp" />
+    <ClCompile Include="Pathfinding.cpp" />
+    <ClCompile Include="SearchLevel.cpp" />
+    <ClCompile Include="SearchNode.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClosedList.h" />
     <ClInclude Include="DummiesAI.h" />
     <ClInclude Include="ExampleBehaviours.h" />
+    <ClInclude Include="OpenList.h" />
+    <ClInclude Include="Path.h" />
+    <ClInclude Include="Pathfinding.h" />
+    <ClInclude Include="SearchLevel.h" />
+    <ClInclude Include="SearchNode.h" />
+    <ClInclude Include="TeamAI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
