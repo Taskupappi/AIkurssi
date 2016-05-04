@@ -9,14 +9,10 @@ SearchNode::SearchNode(const Position &currentPosition, float H, float deltaG, S
 void SearchNode::resetPrev(SearchNode *prev, float deltaG)
 {
 	prevNode = prev;
-	if (prev == nullptr)
-	{
+	if (prev == nullptr)	
 		G = 0.0f;
-	}
 	else
-	{
 		G = deltaG + prev->G;
-	}
 
 	F = G + H;
 }

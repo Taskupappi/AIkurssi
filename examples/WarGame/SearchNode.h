@@ -16,7 +16,7 @@ public:
 
 	SearchNode* prevNode;
 	Position pos;
-	float G, H, F;
+	float G, H, F;  //G = actual distance between points, H = heuristic distance, F = G + H
 };
 
 #endif

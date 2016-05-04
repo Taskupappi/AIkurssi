@@ -148,8 +148,11 @@ public:
 		}	
 
 		AIMapLayer* moveMap = environmentInfo->getAILayer("GroundMoveSpeed");
+		
 		uint8_t RED_PIXEL[4] = {0xff, 0x00, 0x00, 0xff};
 		uint8_t TP_PIXEL[4] = { 0x00, 0x00, 0x00, 0x00 };
+
+
 
 		AIMapLayer* debugMap = environmentInfo->getAILayer("Debug");
 		for (size_t y = 0; y < debugMap->getHeight(); y++)
