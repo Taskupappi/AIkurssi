@@ -14,34 +14,7 @@
 #include <Object.h>
 #include <es_util.h>
 #include <StreamTexture.h>
-#include <Sprite.h>
 #include <SpriteBatch.h>
-#include <SpriteSheet.h>
-
-namespace
-{
-	void setPathColor(yam2d::StreamTexture* t, int x, int y)
-	{
-		t->getPixel(x, y)[0] = 0xff;
-		t->getPixel(x, y)[1] = 0x00;
-		t->getPixel(x, y)[2] = 0xff;
-	}
-
-	bool isRed(unsigned char* p)
-	{
-		return p[0] > 200;
-	}
-
-	bool isGreen(unsigned char* p)
-	{
-		return p[1] > 200;
-	}
-
-	bool isBlue(unsigned char* p)
-	{
-		return p[2] > 200;
-	}
-}
 
 class Dummies : public CharacterController
 {
@@ -83,14 +56,15 @@ private:
 	//Variables for pathfinding
 	OpenList openList;
 	ClosedList closedList;
-	SearchLevel searchLevel;
+	//SearchLevel searchLevel;
 	SearchNode* result;
+	
+	AIMapLayer* moveSpeedLayer;
+
+	bool moving;
 
 	//these are not necessarily needed
-	yam2d::Ref<yam2d::Texture> textureStartCase;
-	yam2d::Ref<yam2d::StreamTexture> texturePathFound;
-	yam2d::Ref<yam2d::Sprite> spriteStartCase;
-	yam2d::Ref<yam2d::Sprite> spritePathFound;
+	yam2d::Ref<yam2d::SpriteBatchGroup> batch;
 
 	bool searchCompleted;
 	float searchTimer;

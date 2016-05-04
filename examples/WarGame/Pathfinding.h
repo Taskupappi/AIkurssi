@@ -4,51 +4,37 @@
 //#include <Object.h>
 //#include <es_util.h>
 //#include <StreamTexture.h>
-#include <Sprite.h>
+//#include <Sprite.h>
 #include <SpriteBatch.h>
-#include <SpriteSheet.h>
+//#include <SpriteSheet.h>
 
 #include "OpenList.h"
 #include "ClosedList.h"
 #include "SearchLevel.h"
 
+#include <AIMapLayer.h>
 
 
 class Pathfinding : public yam2d::Object
 {
-	// Public typedefs and methods:
 public:
 	Pathfinding();
 	virtual ~Pathfinding();
 
 	// Updates the app
-	bool update(yam2d::ESContext* ctx, float deltaTime);
+	bool update(slm::vec2 position, float deltaTime);
 
-	// Draws the app
-	void render(yam2d::ESContext *ctx);
+	void setMoveLayer(AIMapLayer* mapLayer);
 
-	void quit()
-	{
-		m_appRunning = false;
-	}
-
-	// Private member variables and methods:
 private:
-	bool m_appRunning;
-	yam2d::Ref<yam2d::SpriteBatchGroup> m_batch;
-	yam2d::Ref<yam2d::Texture> m_textureStartCase;
-	yam2d::Ref<yam2d::StreamTexture> m_texturePathFound;
-	yam2d::Ref<yam2d::Sprite> m_spriteStartCase;
-	yam2d::Ref<yam2d::Sprite> m_spritePathFound;
-	//yam2d::Ref<yam2d::SpriteSheet> m_font;
-	//yam2d::Ref<yam2d::Texture> m_fontTexture;
-	//yam2d::Ref<yam2d::Text> m_text;
+	yam2d::Ref<yam2d::SpriteBatchGroup> batch;
 
-	bool m_searchCompleted;
-	float m_searchTimer;
+	bool searchCompleted;
+	float searchTimer;
 
 	bool doPathfinding(int startX, int startY, int endX, int endY);
-};
 
+	AIMapLayer* mapLayer;
+};
 #endif
 

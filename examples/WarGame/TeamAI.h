@@ -19,7 +19,7 @@ public:
 	void deleteFromEnemyTeam(yam2d::GameObject* object);
 
 
-	void update();
+	virtual void update(float deltaTime);
 
 
 
